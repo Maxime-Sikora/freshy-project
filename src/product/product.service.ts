@@ -55,8 +55,11 @@ export class ProductService {
   async deleteProduct(id: number) {
     const result = await this.productRepository.delete(id);
     if (result.affected === 0) {
-      throw new HttpException(`This product not exist`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `This product does not exist`,
+        HttpStatus.NOT_FOUND,
+      );
     }
-    return { message: `The product has been deleted succesfully` };
+    return { message: `The product has been deleted successfully` };
   }
 }

@@ -1,5 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ProductStatus } from '../interface/productStatus';
+import { CategoryEntity } from 'src/categories/entities/category.entity';
 
 @Entity()
 export class ProductEntity {
@@ -18,6 +25,11 @@ export class ProductEntity {
   @Column({
     enum: ProductStatus,
     default: ProductStatus.ActiveProduct,
+    enumName: 'product_status_enum',
   })
   status: string;
+
+  @ManyToOne(() => CategoryEntity, (category) => category.product)
+  @JoinColumn()
+  category: CategoryEntity;
 }

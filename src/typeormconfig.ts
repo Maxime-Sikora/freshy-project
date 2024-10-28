@@ -2,6 +2,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { config } from 'dotenv';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ProductEntity } from './product/entities/product.entity';
+import { CategoryEntity } from './categories/entities/category.entity';
 
 config();
 
@@ -14,7 +15,7 @@ const options: DataSourceOptions = {
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   migrations: ['./dist/migration/*.js'],
-  entities: [ProductEntity],
+  entities: [ProductEntity, CategoryEntity],
 };
 
 export const typeOrmModuleOptions: TypeOrmModuleOptions = {

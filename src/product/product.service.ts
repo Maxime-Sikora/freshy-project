@@ -51,4 +51,12 @@ export class ProductService {
     }
     return this.productRepository.findOneBy({ id });
   }
+
+  async deleteProduct(id: number) {
+    const result = await this.productRepository.delete(id);
+    if (result.affected === 0) {
+      throw new HttpException(`This product not exist`, HttpStatus.NOT_FOUND);
+    }
+    return { message: `The product has been deleted succesfully` };
+  }
 }

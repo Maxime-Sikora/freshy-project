@@ -10,12 +10,13 @@ import {
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductEntity } from './entities/product.entity';
+import { AddProductDto } from './interface/addProduct.dto';
 
 @Controller('product')
 export class ProductController {
   constructor(private productService: ProductService) {}
   @Post()
-  createProduct(@Body() body: ProductEntity): Promise<ProductEntity> {
+  createProduct(@Body() body: AddProductDto): Promise<ProductEntity> {
     return this.productService.createNewProduct(body);
   }
 
@@ -34,7 +35,7 @@ export class ProductController {
   @Put(':id')
   updateProduct(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: ProductEntity,
+    @Body() body: AddProductDto,
   ): Promise<ProductEntity> {
     return this.productService.updateProduct(id, body);
   }

@@ -11,16 +11,25 @@ export class CategoriesService {
   ) {}
   async createCategory({ name }): Promise<CategoryEntity> {
     const result = await this.categoriesRepository.save({ name });
+    if (!result) {
+      throw new HttpException(`Category not created`, HttpStatus.BAD_REQUEST);
+    }
     return result;
   }
 
   async findOneById(id: number): Promise<CategoryEntity> {
     const result = await this.categoriesRepository.findOneBy({ id });
+    if (!result) {
+      throw new HttpException(`Category not found`, HttpStatus.NOT_FOUND);
+    }
     return result;
   }
 
   async findAllCategories(): Promise<CategoryEntity[]> {
     const categories = this.categoriesRepository.find();
+    if (!categories) {
+      throw new HttpException(`Categories not found`, HttpStatus.NOT_FOUND);
+    }
     return categories;
   }
 

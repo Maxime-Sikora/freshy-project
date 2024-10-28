@@ -2,22 +2,33 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './entities/product.entity';
 import { Repository } from 'typeorm';
+import { CategoriesService } from 'src/categories/categories.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(ProductEntity)
     private productRepository: Repository<ProductEntity>,
+    private categoriesService: CategoriesService,
   ) {}
   async createNewProduct({
     productName,
     description,
     price,
+    categoryId,
   }): Promise<ProductEntity> {
+    const category = await this.categoriesService.findOneById(categoryId);
+    if (!category) {
+      throw new HttpException(
+        `Category not found to create the product`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
     const newProduct = await this.productRepository.save({
       productName,
       description,
       price,
+      category,
     });
     return newProduct;
   }
@@ -29,18 +40,25 @@ export class ProductService {
 
   async findOneProduct(id: number): Promise<ProductEntity> {
     const product = await this.productRepository.findOneBy({ id });
+    if (!product) {
+      throw new HttpException(`Product not found`, HttpStatus.NOT_FOUND);
+    }
     return product;
   }
 
   async updateProduct(
     id: number,
-    { productName, description, price, status },
+    { productName, description, price, categoryId },
   ): Promise<ProductEntity> {
+    const category = await this.categoriesService.findOneById(categoryId);
+    if (!category) {
+      throw new HttpException(`Category not found`, HttpStatus.NOT_FOUND);
+    }
     const result = await this.productRepository.update(id, {
       productName,
       description,
       price,
-      status,
+      category,
     });
 
     if (result.affected === 0) {
@@ -49,7 +67,16 @@ export class ProductService {
         HttpStatus.NOT_FOUND,
       );
     }
-    return this.productRepository.findOneBy({ id });
+
+    const updatedProduct = this.productRepository.findOne({
+      where: { id },
+      relations: ['category'],
+    });
+
+    if (!updatedProduct) {
+      throw new HttpException(`Product not found`, HttpStatus.NOT_FOUND);
+    }
+    return updatedProduct;
   }
 
   async deleteProduct(id: number) {

@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmModuleOptions } from './typeormconfig';
 import { ProductModule } from './product/product.module';
 import { CategoriesModule } from './categories/categories.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CategoriesModule } from './categories/categories.module';
     TypeOrmModule.forRoot(typeOrmModuleOptions),
     ProductModule,
     CategoriesModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

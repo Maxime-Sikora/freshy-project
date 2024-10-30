@@ -1,4 +1,5 @@
-import { IsString } from 'class-validator';
+import { IsEnum, IsString } from 'class-validator';
+import { UserRoles } from './userRoles';
 
 export class UpdateUserNameOrRoleDto {
   @IsString()
@@ -7,6 +8,6 @@ export class UpdateUserNameOrRoleDto {
   @IsString()
   lastName: string;
 
-  @IsString()
-  role: string;
+  @IsEnum(UserRoles)
+  role: UserRoles;
 }

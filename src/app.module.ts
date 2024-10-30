@@ -7,6 +7,7 @@ import { typeOrmModuleOptions } from './typeormconfig';
 import { ProductModule } from './product/product.module';
 import { CategoriesModule } from './categories/categories.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './user/user.module';
     ProductModule,
     CategoriesModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

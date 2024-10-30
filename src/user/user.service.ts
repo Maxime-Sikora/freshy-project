@@ -47,6 +47,10 @@ export class UserService {
     return user;
   }
 
+  async findOneById(id: number): Promise<UserEntity> {
+    return this.userRepository.findOneBy({ id });
+  }
+
   async findOne(email: string): Promise<UserEntity> {
     return this.userRepository.findOneBy({
       email,

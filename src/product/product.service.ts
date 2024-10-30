@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { CategoriesService } from 'src/categories/categories.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class ProductService {
@@ -10,12 +11,14 @@ export class ProductService {
     @InjectRepository(ProductEntity)
     private productRepository: Repository<ProductEntity>,
     private categoriesService: CategoriesService,
+    private userService: UserService,
   ) {}
   async createNewProduct({
     productName,
     description,
     price,
     categoryId,
+    userId,
   }): Promise<ProductEntity> {
     const category = await this.categoriesService.findOneById(categoryId);
     if (!category) {
@@ -24,11 +27,14 @@ export class ProductService {
         HttpStatus.NOT_FOUND,
       );
     }
+    const user = await this.userService.findOneById(userId);
+    delete user.password;
     const newProduct = await this.productRepository.save({
       productName,
       description,
       price,
       category,
+      user,
     });
     return newProduct;
   }

@@ -16,4 +16,8 @@ export class AddProductDto {
   @IsNumber()
   @IsNotEmpty({ message: 'categoryId can not be empty or null' })
   categoryId: number;
+
+  @IsNumber()
+  @IsNotEmpty({ message: 'userId can not be empty or null' })
+  userId: number;
 }

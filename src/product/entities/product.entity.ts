@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { ProductStatus } from '../interface/productStatus';
 import { CategoryEntity } from 'src/categories/entities/category.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 @Entity()
 export class ProductEntity {
@@ -32,4 +33,8 @@ export class ProductEntity {
   @ManyToOne(() => CategoryEntity, (category) => category.product)
   @JoinColumn()
   category: CategoryEntity;
+
+  @ManyToOne(() => UserEntity, (user) => user.product)
+  @JoinColumn()
+  user: UserEntity;
 }

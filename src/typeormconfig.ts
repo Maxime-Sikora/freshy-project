@@ -4,6 +4,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ProductEntity } from './product/entities/product.entity';
 import { CategoryEntity } from './categories/entities/category.entity';
 import { UserEntity } from './user/entities/user.entity';
+import { CompanyEntity } from './company/entities/company.entity';
 
 config();
 
@@ -16,7 +17,7 @@ const options: DataSourceOptions = {
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   migrations: ['./dist/migration/*.js'],
-  entities: [ProductEntity, CategoryEntity, UserEntity],
+  entities: [ProductEntity, CategoryEntity, UserEntity, CompanyEntity],
 };
 
 export const typeOrmModuleOptions: TypeOrmModuleOptions = {

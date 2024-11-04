@@ -3,10 +3,12 @@ import {
   Entity,
   JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserRoles } from '../interface/userRoles';
 import { ProductEntity } from 'src/product/entities/product.entity';
+import { CompanyEntity } from 'src/company/entities/company.entity';
 
 @Entity()
 export class UserEntity {
@@ -35,4 +37,7 @@ export class UserEntity {
   @OneToMany(() => ProductEntity, (product) => product.user)
   @JoinColumn()
   product: ProductEntity;
+
+  @OneToOne(() => CompanyEntity, (company) => company.user, { nullable: true })
+  company: CompanyEntity;
 }

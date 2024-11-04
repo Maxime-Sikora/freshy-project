@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './entities/product.entity';
 import { Repository } from 'typeorm';
@@ -28,6 +33,12 @@ export class ProductService {
       );
     }
     const user = await this.userService.findOneById(userId);
+    if (!user) {
+      throw new HttpException(
+        `User not found to create the product`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
     delete user.password;
     const newProduct = await this.productRepository.save({
       productName,
@@ -45,7 +56,10 @@ export class ProductService {
   }
 
   async findOneProduct(id: number): Promise<ProductEntity> {
-    const product = await this.productRepository.findOneBy({ id });
+    const product = await this.productRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
     if (!product) {
       throw new HttpException(`Product not found`, HttpStatus.NOT_FOUND);
     }
@@ -54,38 +68,40 @@ export class ProductService {
 
   async updateProduct(
     id: number,
-    { productName, description, price, categoryId },
+    { productName, description, price, categoryId, userId },
   ): Promise<ProductEntity> {
-    const category = await this.categoriesService.findOneById(categoryId);
+    const [category, user, product] = await Promise.all([
+      this.categoriesService.findOneById(categoryId),
+      this.userService.findOneById(userId),
+      this.findOneProduct(id),
+    ]);
     if (!category) {
       throw new HttpException(`Category not found`, HttpStatus.NOT_FOUND);
     }
-    const result = await this.productRepository.update(id, {
-      productName,
-      description,
-      price,
-      category,
-    });
-
-    if (result.affected === 0) {
-      throw new HttpException(
-        `Product not found or not updated`,
-        HttpStatus.NOT_FOUND,
-      );
+    if (!user) {
+      throw new HttpException(`User not found`, HttpStatus.NOT_FOUND);
     }
-
-    const updatedProduct = this.productRepository.findOne({
-      where: { id },
-      relations: ['category'],
-    });
-
-    if (!updatedProduct) {
+    if (!product) {
       throw new HttpException(`Product not found`, HttpStatus.NOT_FOUND);
     }
+    if (userId !== product.user.id) {
+      throw new UnauthorizedException(
+        `You are not authorized to update this product`,
+      );
+    }
+    Object.assign(product, { productName, description, price });
+    const updatedProduct = await this.productRepository.save(product);
+    delete updatedProduct.user.password;
     return updatedProduct;
   }
 
-  async deleteProduct(id: number) {
+  async deleteProduct(id: number, userId) {
+    const product = await this.findOneProduct(id);
+    if (product.user.id !== userId) {
+      throw new UnauthorizedException(
+        `You are not authorized to delete this product`,
+      );
+    }
     const result = await this.productRepository.delete(id);
     if (result.affected === 0) {
       throw new HttpException(

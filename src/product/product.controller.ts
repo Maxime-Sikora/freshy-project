@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
@@ -23,8 +24,11 @@ export class ProductController {
   @Post()
   @Roles(UserRoles.Producer)
   @UseGuards(AuthGuard, RolesGuard)
-  createProduct(@Body() body: AddProductDto): Promise<ProductEntity> {
-    return this.productService.createNewProduct(body);
+  createProduct(
+    @Body() body: AddProductDto,
+    @Req() { user },
+  ): Promise<ProductEntity> {
+    return this.productService.createNewProduct({ ...body, userId: user.sub });
   }
 
   @Get('all')
@@ -40,15 +44,20 @@ export class ProductController {
   }
 
   @Put(':id')
+  @Roles(UserRoles.Producer)
+  @UseGuards(AuthGuard, RolesGuard)
   updateProduct(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: AddProductDto,
+    @Req() { user },
   ): Promise<ProductEntity> {
-    return this.productService.updateProduct(id, body);
+    return this.productService.updateProduct(id, { ...body, userId: user.sub });
   }
 
   @Delete(':id')
-  deleteProduct(@Param('id', ParseIntPipe) id: number) {
-    return this.productService.deleteProduct(id);
+  @Roles(UserRoles.Producer)
+  @UseGuards(AuthGuard, RolesGuard)
+  deleteProduct(@Param('id', ParseIntPipe) id: number, @Req() { user }) {
+    return this.productService.deleteProduct(id, { userId: user.id });
   }
 }

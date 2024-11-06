@@ -31,4 +31,11 @@ export class CompanyService {
     delete saveCompany.user.password;
     return saveCompany;
   }
+
+  async findAll(): Promise<CompanyEntity[]> {
+    const AllCompany = await this.companyRepository.find({
+      relations: ['user'],
+    });
+    return AllCompany;
+  }
 }

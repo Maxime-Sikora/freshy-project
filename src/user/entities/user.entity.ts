@@ -9,6 +9,7 @@ import {
 import { UserRoles } from '../interface/userRoles';
 import { ProductEntity } from 'src/product/entities/product.entity';
 import { CompanyEntity } from 'src/company/entities/company.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class UserEntity {
@@ -18,6 +19,7 @@ export class UserEntity {
   @Column()
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
 

@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { hash } from 'bcrypt';
-import { UserResponse } from './interface/userResponse';
 
 @Injectable()
 export class UserService {
@@ -17,24 +16,26 @@ export class UserService {
     firstName,
     lastName,
     role,
-  }): Promise<UserResponse> {
+  }): Promise<UserEntity> {
     const passwordHash = await hash(password, 10);
-    const saveUser = await this.userRepository.save({
+    const saveUser = this.userRepository.create({
       email,
       password: passwordHash,
       firstName,
       lastName,
       role,
     });
-    delete saveUser.password;
+    await this.userRepository.save(saveUser);
     return saveUser;
   }
 
-  async updateUserNameOrRole(
-    id: number,
-    { firstName, lastName, role },
-  ): Promise<UserResponse> {
-    const updatedUser = await this.userRepository.update(id, {
+  async updateUserNameOrRole({
+    firstName,
+    lastName,
+    role,
+    userId,
+  }): Promise<UserEntity> {
+    const updatedUser = await this.userRepository.update(userId, {
       firstName,
       lastName,
       role,
@@ -42,8 +43,7 @@ export class UserService {
     if (updatedUser.affected === 0) {
       throw new HttpException(`User not updated`, HttpStatus.BAD_REQUEST);
     }
-    const user = await this.userRepository.findOneBy({ id });
-    delete user.password;
+    const user = await this.userRepository.findOneBy({ id: userId });
     return user;
   }
 

@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     const token = request.headers.authorization?.split(' ')[1];
     if (!token) {
       throw new UnauthorizedException(
-        `Token missing: you must be logged in to access the ressource`,
+        `Token missing: you must be logged in to access the resource`,
       );
     }
     try {

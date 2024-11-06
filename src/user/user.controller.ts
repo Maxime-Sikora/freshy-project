@@ -1,29 +1,24 @@
-import {
-  Body,
-  Controller,
-  Param,
-  ParseIntPipe,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserResponse } from './interface/userResponse';
 import { CreateUserDto } from './interface/createUser.dto';
 import { UpdateUserNameOrRoleDto } from './interface/updateUserNameOrRole.dto';
+import { UserEntity } from './entities/user.entity';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
   @Post()
-  createNewUser(@Body() body: CreateUserDto): Promise<UserResponse> {
+  createNewUser(@Body() body: CreateUserDto): Promise<UserEntity> {
     return this.userService.createUser(body);
   }
 
-  @Put(':id')
+  @Put()
+  @UseGuards(AuthGuard)
   updateUser(
-    @Param('id', ParseIntPipe) id: number,
+    @Req() { user },
     @Body() body: UpdateUserNameOrRoleDto,
-  ): Promise<UserResponse> {
-    return this.userService.updateUserNameOrRole(id, body);
+  ): Promise<UserEntity> {
+    return this.userService.updateUserNameOrRole({ ...body, userId: user.sub });
   }
 }

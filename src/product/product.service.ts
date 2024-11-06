@@ -39,7 +39,6 @@ export class ProductService {
         HttpStatus.NOT_FOUND,
       );
     }
-    delete user.password;
     const newProduct = await this.productRepository.save({
       productName,
       description,
@@ -91,7 +90,6 @@ export class ProductService {
     }
     Object.assign(product, { productName, description, price });
     const updatedProduct = await this.productRepository.save(product);
-    delete updatedProduct.user.password;
     return updatedProduct;
   }
 

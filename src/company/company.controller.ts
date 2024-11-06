@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './interfaces/createCompany.dto';
 import { CompanyEntity } from './entities/company.entity';
@@ -14,5 +14,10 @@ export class CompanyController {
     @Req() { user },
   ): Promise<CompanyEntity> {
     return this.companyService.createCompany({ ...body, userId: user.sub });
+  }
+
+  @Get()
+  findAllCompany(): Promise<CompanyEntity[]> {
+    return this.companyService.findAll();
   }
 }

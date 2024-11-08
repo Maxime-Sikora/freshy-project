@@ -9,7 +9,7 @@ Freshy est un projet personnel, il s'agit d'une application destinée aux agricu
 
 ## Installation
 
-    1.	Cloner le dépôt :
+1. Cloner le dépôt :
 
 ```bash
 git clone <URL_DU_DÉPÔT>
@@ -24,7 +24,7 @@ Dans le répertoire du projet, exécute la commande suivante pour installer tout
 npm install
 ```
 
-    3. Configuration de la base de données avec Docker :
+3. Configuration de la base de données avec Docker :
 
 Assurez-vous d’avoir Docker et Docker Compose installés. Le projet utilise un fichier docker-compose.yml pour configurer la base de données. Dans ce fichier, la configuration de la base de données est déjà prête.
 Pour lancer la base de données avec Docker, exécutez :

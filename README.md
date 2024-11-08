@@ -81,6 +81,24 @@ Pour lancer l’application en mode développement et s’assurer que la base de
 "start:dev": "docker-compose up -d && nest start --watch"
 ```
 
+Il faut également dupliquer le fichier .env.example pour créer le .env :
+
+```dotenv
+# Variable d'environnement
+PORT=3000
+
+# Database environnement
+DB_TYPE=mariadb
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASS=examplePassword
+DB_NAME=freshyExampleName
+
+# JWT environnement
+SECRET_TOKEN=ExampleSecretToken
+```
+
 Avant de démarrer le serveur, lancez les migrations pour créer les tables nécessaires dans la base de données :
 
 ```bash

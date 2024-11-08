@@ -95,8 +95,14 @@ npm run start:dev
 
 ## Description du Projet
 
-Freshy est une application qui vise à permettre aux agriculteurs de vendre leurs produits en direct aux consommateurs, sans intermédiaires. Elle propose les fonctionnalités suivantes :
+Freshy est une application qui vise à permettre aux agriculteurs de vendre leurs produits en direct aux consommateurs, sans intermédiaires.
+
+Elle propose les fonctionnalités suivantes :
+
 • Inscription des producteurs et des consommateurs.
+
 • Gestion des produits par les producteurs.
+
 • Affichage des produits disponibles pour les consommateurs.
+
 • Création de commandes par les consommateurs pour acheter directement auprès des producteurs.

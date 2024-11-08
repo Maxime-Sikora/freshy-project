@@ -50,7 +50,9 @@ export class ProductService {
   }
 
   async findAllProducts(): Promise<ProductEntity[]> {
-    const products = await this.productRepository.find();
+    const products = await this.productRepository.find({
+      relations: ['user'],
+    });
     return products;
   }
 
@@ -93,7 +95,7 @@ export class ProductService {
     return updatedProduct;
   }
 
-  async deleteProduct(id: number, userId) {
+  async deleteProduct(id: number, { userId }) {
     const product = await this.findOneProduct(id);
     if (product.user.id !== userId) {
       throw new UnauthorizedException(

@@ -58,6 +58,6 @@ export class ProductController {
   @Roles(UserRoles.Producer)
   @UseGuards(AuthGuard, RolesGuard)
   deleteProduct(@Param('id', ParseIntPipe) id: number, @Req() { user }) {
-    return this.productService.deleteProduct(id, { userId: user.id });
+    return this.productService.deleteProduct(id, { userId: user.sub });
   }
 }

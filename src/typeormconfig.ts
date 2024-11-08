@@ -5,6 +5,8 @@ import { ProductEntity } from './product/entities/product.entity';
 import { CategoryEntity } from './categories/entities/category.entity';
 import { UserEntity } from './user/entities/user.entity';
 import { CompanyEntity } from './company/entities/company.entity';
+import { OrderEntity } from './order/entities/order.entity';
+import { OrderOnProductEntity } from './order/entities/orderOnProduct.entity';
 
 config();
 
@@ -17,7 +19,14 @@ const options: DataSourceOptions = {
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   migrations: ['./dist/migration/*.js'],
-  entities: [ProductEntity, CategoryEntity, UserEntity, CompanyEntity],
+  entities: [
+    ProductEntity,
+    CategoryEntity,
+    UserEntity,
+    CompanyEntity,
+    OrderEntity,
+    OrderOnProductEntity,
+  ],
 };
 
 export const typeOrmModuleOptions: TypeOrmModuleOptions = {

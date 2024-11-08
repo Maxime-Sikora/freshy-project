@@ -1,85 +1,102 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Freshy
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Freshy est un projet personnel, il s'agit d'une application destinée aux agriculteurs souhaitant vendre leurs produits directement aux consommateurs. Elle permet aux producteurs de s’inscrire et de gérer leurs produits, offrant une plateforme pour des achats en circuits courts et soutenant les producteurs locaux.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Prérequis
 
-## Description
+    •	Docker : pour la création et la gestion de la base de données.
+    •	Node.js et npm : pour installer les dépendances et exécuter le projet.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Installation
 
-## Project setup
+    1.	Cloner le dépôt :
 
 ```bash
-$ npm install
+git clone <URL_DU_DÉPÔT>
+cd freshy
 ```
 
-## Compile and run the project
+2. Installer les dépendances :
+
+Dans le répertoire du projet, exécute la commande suivante pour installer toutes les dépendances :
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+    3. Configuration de la base de données avec Docker :
+
+Assurez-vous d’avoir Docker et Docker Compose installés. Le projet utilise un fichier docker-compose.yml pour configurer la base de données. Dans ce fichier, la configuration de la base de données est déjà prête.
+Pour lancer la base de données avec Docker, exécutez :
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker-compose up -d
 ```
 
-## Resources
+Cette commande démarre les conteneurs nécessaires en arrière-plan.
 
-Check out a few resources that may come in handy when working with NestJS:
+## Gestion des Migrations
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Des commandes spécifiques sont définies dans le fichier package.json pour faciliter la gestion des migrations de la base de données. Ajoutez les lignes suivantes à package.json pour utiliser les commandes de migration :
 
-## Support
+```json
+"typeorm": "typeorm-ts-node-commonjs",
+"migration:create": "./create-migration.sh",
+"migration:generate": "./generate-migration.sh",
+"migration:run": "./run-migration.sh",
+"migration:revert": "./revert-migration.sh"
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Commandes de Migration
 
-## Stay in touch
+• Créer une migration :
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+npm run migration:create -- -n NomDeLaMigration
+```
 
-## License
+• Générer une migration :
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```bash
+npm run migration:generate -- -n NomDeLaMigration
+```
+
+• Exécuter les migrations :
+
+```bash
+npm run migration:run
+```
+
+• Revenir en arrière sur une migration :
+
+```bash
+npm run migration:revert
+```
+
+## Démarrage de l’application
+
+Pour lancer l’application en mode développement et s’assurer que la base de données démarre automatiquement, ajoutez/modifiez la ligne start:dev dans package.json comme suit :
+
+```json
+"start:dev": "docker-compose up -d && nest start --watch"
+```
+
+Avant de démarrer le serveur, lancez les migrations pour créer les tables nécessaires dans la base de données :
+
+```bash
+npm run migration:run
+```
+
+Ensuite, lancez l’application avec la commande suivante :
+
+```bash
+npm run start:dev
+```
+
+## Description du Projet
+
+Freshy est une application qui vise à permettre aux agriculteurs de vendre leurs produits en direct aux consommateurs, sans intermédiaires. Elle propose les fonctionnalités suivantes :
+• Inscription des producteurs et des consommateurs.
+• Gestion des produits par les producteurs.
+• Affichage des produits disponibles pour les consommateurs.
+• Création de commandes par les consommateurs pour acheter directement auprès des producteurs.

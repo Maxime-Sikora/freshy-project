@@ -1,0 +1,189 @@
+components:
+  schemas:
+    CreateCategoriesDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Légumes'
+    CategoryEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+
+paths:
+  /categories:
+    post:
+      summary: Créer une nouvelle catégorie.
+      description: Créer une nouvelle catégorie, il faut être Admin
+      tags:
+        - Categories
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoriesDto'
+            examples:
+              exampleCreateNewCateg:
+                summary: "Exemple de création d'une nouvelle catégorie."
+                value:
+                  name: 'Légumes'
+      responses:
+        '201':
+          description: Catégorie créée avec succès.
+          content:
+            application/json:
+              example:
+                id: 1
+                name: 'Légumes'
+        '400':
+          description: La catégorie n'a pas été créée.
+          content:
+            application/json:
+              examples:
+                missingName:
+                  summary: 'Le nom est manquant'
+                  value:
+                    message: 'name cannot be empty'
+                notCreated:
+                  summary: 'La catégorie n’a pas été créée'
+                  value:
+                    message: 'Internal server error: Category not created'
+    put:
+      summary: Modifer une catégorie.
+      description: Modifier une catégorie, il faut être Admin
+      tags:
+        - Categories
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoriesDto'
+            examples:
+              exampleUpdateCateg:
+                summary: "Exemple de modification d'une catégorie."
+                value:
+                  name: 'Légumes'
+      responses:
+        '200':
+          description: Catégorie modifiée avec succès.
+          content:
+            application/json:
+              example:
+                id: 1
+                name: 'Légumes'
+        '400':
+          description: La catégorie n'a pas été modifié.
+          content:
+            application/json:
+              examples:
+                missingName:
+                  summary: 'Le nom est manquant'
+                  value:
+                    message: 'name cannot be empty'
+                notUpdated:
+                  summary: 'La catégorie n’a pas été modifiée'
+                  value:
+                    message: 'Internal server error: Category not updated'
+    delete:
+      summary: Supprimer une catégorie par ID
+      description: Supprime une catégorie spécifique en utilisant son ID. Nécessite les rôles Admin.
+      tags:
+        - Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: L'ID de la catégorie à supprimer.
+      responses:
+        '200':
+          description: Catégorie supprimée avec succès.
+          content:
+            application/json:
+              example:
+                message: 'The category has been deleted successfully'
+        '404':
+          description: Catégorie non trouvée.
+          content:
+            application/json:
+              example:
+                message: 'This category does not exist'
+        '401':
+          description: Non autorisé. L'utilisateur doit être authentifié.
+          content:
+            application/json:
+              example:
+                message: 'Unauthorized'
+        '403':
+          description: Accès interdit. L'utilisateur doit avoir le rôle Admin.
+          content:
+            application/json:
+              example:
+                message: 'Forbidden'
+  /categories/all:
+    get:
+      summary: Récupérer toutes les catégories
+      description: Retourne la liste complète des catégories disponibles.
+      tags:
+        - Categories
+      responses:
+        '200':
+          description: Liste des catégories récupérée avec succès.
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: 'Légumes'
+                - id: 2
+                  name: 'Fruits'
+        '500':
+          description: Erreur interne du serveur.
+          content:
+            application/json:
+              example:
+                message: 'Erreur interne du serveur lors de la récupération des catégories.'
+  /categories/{id}:
+    get:
+      summary: Récupérer une catégorie par ID
+      description: Retourne les informations d'une catégorie spécifique en utilisant son ID.
+      tags:
+        - Categories
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: L'ID de la catégorie à récupérer.
+      responses:
+        '200':
+          description: Catégorie récupérée avec succès.
+          content:
+            application/json:
+              example:
+                id: 1
+                name: 'Légumes'
+        '404':
+          description: Catégorie non trouvée.
+          content:
+            application/json:
+              example:
+                message: 'La catégorie avec cet ID n’a pas été trouvée.'
+        '500':
+          description: Erreur interne du serveur.
+          content:
+            application/json:
+              example:
+                message: 'Erreur interne du serveur lors de la récupération de la catégorie.'

@@ -1,0 +1,249 @@
+components:
+  schemas:
+    AddProductDto:
+      type: object
+      properties:
+        productName:
+          type: string
+          example: 'Tomato'
+        description:
+          type: string
+          example: 'Fresh and organic tomatoes'
+        price:
+          type: number
+          example: 2.99
+        categoryId:
+          type: integer
+          example: 1
+    ProductEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        productName:
+          type: string
+          example: 'Tomato'
+        description:
+          type: string
+          example: 'Fresh and organic tomatoes'
+        price:
+          type: number
+          example: 2.99
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+          example: 'active'
+        category:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: 'Vegetables'
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            email:
+              type: string
+              format: email
+              example: 'producer@example.com'
+            firstName:
+              type: string
+              example: 'Alice'
+            lastName:
+              type: string
+              example: 'Smith'
+            role:
+              type: string
+              example: 'producer'
+
+paths:
+  /product:
+    post:
+      summary: Créer un nouveau produit
+      description: Crée un nouveau produit pour un utilisateur de rôle `Producer`.
+      tags:
+        - Product
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddProductDto'
+            examples:
+              exampleCreateProduct:
+                value:
+                  productName: 'Tomato'
+                  description: 'Fresh and organic tomatoes'
+                  price: 2.99
+                  categoryId: 1
+      responses:
+        '201':
+          description: Produit créé avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductEntity'
+        '401':
+          description: L'utilisateur doit être authentifié et avoir le rôle `Producer`.
+          content:
+            application/json:
+              example:
+                message: 'Unauthorized'
+        '403':
+          description: Accès interdit. Seuls les producteurs peuvent créer un produit.
+          content:
+            application/json:
+              example:
+                message: 'Forbidden'
+
+  /product/all:
+    get:
+      summary: Récupérer tous les produits
+      description: Retourne la liste de tous les produits.
+      tags:
+        - Product
+      responses:
+        '200':
+          description: Liste des produits récupérée avec succès.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductEntity'
+        '500':
+          description: Erreur interne du serveur.
+          content:
+            application/json:
+              example:
+                message: 'Erreur interne du serveur'
+
+  /product/{id}:
+    get:
+      summary: Récupérer un produit par ID
+      description: Retourne les informations d'un produit en fonction de l'ID spécifié.
+      tags:
+        - Product
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: L'ID du produit à récupérer.
+      responses:
+        '200':
+          description: Produit récupéré avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductEntity'
+        '404':
+          description: Le produit n'existe pas.
+          content:
+            application/json:
+              example:
+                message: 'Product not found'
+        '500':
+          description: Erreur interne du serveur.
+          content:
+            application/json:
+              example:
+                message: 'Erreur interne du serveur'
+
+    put:
+      summary: Mettre à jour un produit
+      description: Met à jour un produit pour un utilisateur de rôle `Producer`.
+      tags:
+        - Product
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: L'ID du produit à mettre à jour.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddProductDto'
+      responses:
+        '200':
+          description: Produit mis à jour avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductEntity'
+        '401':
+          description: L'utilisateur doit être authentifié.
+          content:
+            application/json:
+              example:
+                message: 'Unauthorized'
+        '403':
+          description: Accès interdit. Seuls les producteurs peuvent modifier un produit.
+          content:
+            application/json:
+              example:
+                message: 'Forbidden'
+        '404':
+          description: Le produit n'existe pas.
+          content:
+            application/json:
+              example:
+                message: 'Product not found'
+
+    delete:
+      summary: Supprimer un produit
+      description: Supprime un produit pour un utilisateur de rôle `Producer`.
+      tags:
+        - Product
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: L'ID du produit à supprimer.
+      responses:
+        '200':
+          description: Produit supprimé avec succès.
+          content:
+            application/json:
+              example:
+                message: 'The product has been deleted successfully'
+        '401':
+          description: L'utilisateur doit être authentifié.
+          content:
+            application/json:
+              example:
+                message: 'Unauthorized'
+        '403':
+          description: Accès interdit. Seuls les producteurs peuvent supprimer un produit.
+          content:
+            application/json:
+              example:
+                message: 'Forbidden'
+        '404':
+          description: Le produit n'existe pas.
+          content:
+            application/json:
+              example:
+                message: 'Product not found'

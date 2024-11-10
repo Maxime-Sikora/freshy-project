@@ -1,0 +1,206 @@
+components:
+  schemas:
+    CreateCompanyDto:
+      type: object
+      properties:
+        company_name:
+          type: string
+          example: 'Example company'
+        street_company:
+          type: string
+          example: "10 rue de l'exemple"
+        zip_code_company:
+          type: integer
+          example: 59500
+        city_company:
+          type: string
+          example: 'DOUAI'
+        phone_number_company:
+          type: string
+          example: '0777552277'
+    CompanyEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        company_name:
+          type: string
+          example: 'Sample Company'
+        street_company:
+          type: string
+          example: '45 rue des Champs'
+        zip_code_company:
+          type: integer
+          example: 59500
+        city_company:
+          type: string
+          example: 'DOUAI'
+        phone_number_company:
+          type: string
+          example: '0777552277'
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            email:
+              type: string
+              format: email
+              example: 'producer@example.com'
+            firstName:
+              type: string
+              example: 'Alice'
+            lastName:
+              type: string
+              example: 'Smith'
+            role:
+              type: string
+              example: 'producer'
+
+paths:
+  /company:
+    post:
+      summary: Créer une nouvelle entreprise
+      description: Crée une nouvelle entreprise pour un utilisateur de rôle `Producer`.
+      tags:
+        - Company
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompanyDto'
+            examples:
+              exampleCreateCompany:
+                value:
+                  company_name: 'Sample Company'
+                  street_company: '45 rue des Champs'
+                  zip_code_company: 59500
+                  city_company: 'DOUAI'
+                  phone_number_company: '0777552277'
+      responses:
+        '201':
+          description: Entreprise créée avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyEntity'
+        '401':
+          description: L'utilisateur doit être un producteur authentifié.
+          content:
+            application/json:
+              example:
+                message: 'Unauthorized'
+        '403':
+          description: Accès interdit. Seuls les producteurs peuvent créer une entreprise.
+          content:
+            application/json:
+              example:
+                message: 'Forbidden'
+        '409':
+          description: L'utilisateur a déjà une entreprise.
+          content:
+            application/json:
+              example:
+                message: 'You already have a Company'
+
+    put:
+      summary: Mettre à jour les informations de l'entreprise
+      description: Met à jour les informations de l'entreprise pour un producteur.
+      tags:
+        - Company
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompanyDto'
+      responses:
+        '200':
+          description: Informations de l'entreprise mises à jour avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyEntity'
+        '400':
+          description: Mise à jour échouée.
+          content:
+            application/json:
+              example:
+                message: 'Company not updated'
+        '404':
+          description: L'entreprise n'existe pas.
+          content:
+            application/json:
+              example:
+                message: "You don't have a company"
+        '401':
+          description: Utilisateur non authentifié.
+          content:
+            application/json:
+              example:
+                message: 'Unauthorized'
+        '403':
+          description: Accès interdit. Seuls les producteurs peuvent modifier une entreprise.
+          content:
+            application/json:
+              example:
+                message: 'Forbidden'
+    get:
+      summary: Récupérer toutes les entreprises
+      description: Retourne la liste de toutes les entreprises.
+      tags:
+        - Company
+      responses:
+        '200':
+          description: Liste des entreprises récupérée avec succès.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyEntity'
+        '500':
+          description: Erreur interne du serveur.
+          content:
+            application/json:
+              example:
+                message: 'Erreur interne du serveur'
+  /company/{id}:
+    get:
+      summary: Récupérer une entreprise par ID
+      description: Retourne les informations d'une entreprise en fonction de l'ID spécifié.
+      tags:
+        - Company
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: L'ID de l'entreprise à récupérer.
+      responses:
+        '200':
+          description: Entreprise récupérée avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyEntity'
+        '404':
+          description: L'entreprise n'existe pas.
+          content:
+            application/json:
+              example:
+                message: 'Company not found'
+        '500':
+          description: Erreur interne du serveur.
+          content:
+            application/json:
+              example:
+                message: 'Erreur interne du serveur'

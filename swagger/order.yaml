@@ -1,0 +1,120 @@
+components:
+  schemas:
+    OrderOnProductDto:
+      type: object
+      properties:
+        productId:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          example: 2
+    OrderEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        total_price:
+          type: number
+          format: decimal
+          example: 45.00
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            email:
+              type: string
+              format: email
+              example: 'user@example.com'
+            firstName:
+              type: string
+              example: 'Alice'
+            lastName:
+              type: string
+              example: 'Smith'
+            role:
+              type: string
+              example: 'customer'
+        orderOnProduct:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderOnProductEntity'
+    OrderOnProductEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        order:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        product:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 2
+            productName:
+              type: string
+              example: 'Tomato'
+            price:
+              type: number
+              format: decimal
+              example: 2.99
+        quantity:
+          type: integer
+          example: 2
+        total_line_product:
+          type: number
+          format: decimal
+          example: 5.98
+
+paths:
+  /order:
+    post:
+      summary: Créer une nouvelle commande
+      description: Crée une nouvelle commande pour un utilisateur connecté.
+      tags:
+        - Order
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrderOnProductDto'
+            examples:
+              exampleOrderItems:
+                value:
+                  - productId: 1
+                    quantity: 2
+                  - productId: 2
+                    quantity: 3
+      responses:
+        '201':
+          description: Commande créée avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderEntity'
+        '401':
+          description: L'utilisateur doit être authentifié pour créer une commande.
+          content:
+            application/json:
+              example:
+                message: 'Unauthorized'
+        '404':
+          description: Produit non trouvé dans la commande.
+          content:
+            application/json:
+              example:
+                message: 'Product not found'

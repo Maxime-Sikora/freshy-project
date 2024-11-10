@@ -1,0 +1,179 @@
+components:
+  schemas:
+    CreateUserDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: 'user@example.com'
+        password:
+          type: string
+          format: password
+          example: 'SecurePass123'
+        firstName:
+          type: string
+          example: 'John'
+        lastName:
+          type: string
+          example: 'Doe'
+        role:
+          type: string
+          enum:
+            - customer
+            - producer
+            - admin
+          example: 'customer'
+    UpdateUserNameOrRoleDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+        lastName:
+          type: string
+          example: 'Doe'
+        role:
+          type: string
+          enum:
+            - customer
+            - producer
+            - admin
+          example: 'customer'
+    UserEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        email:
+          type: string
+          example: 'user@example.com'
+        firstName:
+          type: string
+          example: 'John'
+        lastName:
+          type: string
+          example: 'Doe'
+        role:
+          type: string
+          example: 'producer'
+
+paths:
+  /user:
+    post:
+      summary: Créer un nouvel utilisateur
+      description: Crée un nouvel utilisateur avec les informations fournies.
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+            examples:
+              exampleCustomer:
+                summary: "Exemple d'un utilisateur de type Customer"
+                value:
+                  email: 'customer@example.com'
+                  password: 'SecurePass123'
+                  firstName: 'Alice'
+                  lastName: 'Smith'
+                  role: 'customer'
+              exampleProducer:
+                summary: "Exemple d'un utilisateur de type Producer"
+                value:
+                  email: 'producer@example.com'
+                  password: 'SecurePass123'
+                  firstName: 'Bob'
+                  lastName: 'Jones'
+                  role: 'producer'
+              exampleAdmin:
+                summary: "Exemple d'un utilisateur de type Admin"
+                value:
+                  email: 'admin@example.com'
+                  password: 'SecurePass123'
+                  firstName: 'Charlie'
+                  lastName: 'Brown'
+                  role: 'admin'
+      responses:
+        '201':
+          description: Utilisateur créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserEntity'
+        '400':
+          description: Erreur de validation ou de création
+          content:
+            application/json:
+              examples:
+                missingEmail:
+                  summary: 'Email manquant'
+                  value: { message: 'Email must be a valid email address' }
+                missingPassword:
+                  summary: 'Mot de passe manquant'
+                  value: { message: 'Password cannot be empty' }
+                missingFirstName:
+                  summary: 'firstName manquant'
+                  value: { message: firstName cannot be empty }
+                missingLasttName:
+                  summary: 'lastName manquant'
+                  value: { message: lastName cannot be empty }
+                invalidRole:
+                  summary: 'Rôle invalide'
+                  value: { message: 'Role must be one of the valid roles' }
+    put:
+      summary: Mettre à jour l'utilisateur.
+      description: Mettre à jour le nom, le prénom ou le rôle avec les informations fournies.
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserNameOrRoleDto'
+            examples:
+              exampleUpdateInCustomer:
+                summary: 'Exemple pour modifier le role en consommateur'
+                value:
+                  firstName: 'John'
+                  lastName: 'Doe'
+                  role: 'customer'
+              exampleUpdateInProducer:
+                summary: 'Exemple pour modifier le role en producteur'
+                value:
+                  firstName: 'John'
+                  lastName: 'Doe'
+                  role: 'producer'
+              exampleUpdateInAdmin:
+                summary: 'Exemple pour modifier le role en admin'
+                value:
+                  firstName: 'John'
+                  lastName: 'Doe'
+                  role: 'admin'
+      responses:
+        '200':
+          description: Utilisateur modifié avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserEntity'
+        '400':
+          description: Erreur lors de la modification
+          content:
+            application/json:
+              examples:
+                missingFirstName:
+                  summary: 'firstName manquant'
+                  value: { message: firstName cannot be empty }
+                missingLasttName:
+                  summary: 'lastName manquant'
+                  value: { message: lastName cannot be empty }
+                invalidRole:
+                  summary: 'Rôle invalide'
+                  value: { message: 'Role must be one of the valid roles' }

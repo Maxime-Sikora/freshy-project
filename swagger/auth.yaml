@@ -1,0 +1,57 @@
+components:
+  schemas:
+    AuthResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+    SignInDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: 'user@example.com'
+        password:
+          type: string
+          format: password
+          example: 'SecurePass123'
+
+paths:
+  /auth:
+    post:
+      summary: Se connecter pour récupérer un token
+      description: Se connecter avec ses identifiants pour récupérer son token
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInDto'
+            examples:
+              exampleConnectionCustomer:
+                summary: se connecter en tant que consommateur
+                value:
+                  email: 'customer@example.com'
+                  password: 'SecurePass123'
+              exampleConnectionProducer:
+                summary: se connecter en tant que producteur
+                value:
+                  email: 'producer@example.com'
+                  password: 'SecurePass123'
+              exampleConnectionAdmin:
+                summary: se connecter en tant qu'Admin
+                value:
+                  email: 'admin@example.com'
+                  password: 'SecurePass123'
+      responses:
+        '200':
+          description: Utilisateur connecté avec succés
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '404':
+          description: L'utilisateur ou le mot de passe est incorrect

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
@@ -14,19 +14,13 @@ export class AuthService {
     const user = await this.userService.findOne(email);
 
     if (!user) {
-      throw new HttpException(
-        `email or password incorrect`,
-        HttpStatus.UNAUTHORIZED,
-      );
+      throw new UnauthorizedException(`Email or password incorrect`);
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      throw new HttpException(
-        `email or password incorrect`,
-        HttpStatus.UNAUTHORIZED,
-      );
+      throw new UnauthorizedException(`Email or password incorrect`);
     }
 
     const payload = { sub: user.id, username: user.email, role: user.role };

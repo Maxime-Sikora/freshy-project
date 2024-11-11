@@ -17,7 +17,7 @@ paths:
   /categories:
     post:
       summary: Créer une nouvelle catégorie.
-      description: Créer une nouvelle catégorie, il faut être Admin
+      description: Créer une nouvelle catégorie, il faut être Admin.
       tags:
         - Categories
       security:
@@ -55,8 +55,8 @@ paths:
                   value:
                     message: 'Internal server error: Category not created'
     put:
-      summary: Modifer une catégorie.
-      description: Modifier une catégorie, il faut être Admin
+      summary: Modifier une catégorie.
+      description: Modifier une catégorie, il faut être Admin.
       tags:
         - Categories
       security:
@@ -81,7 +81,7 @@ paths:
                 id: 1
                 name: 'Légumes'
         '400':
-          description: La catégorie n'a pas été modifié.
+          description: La catégorie n'a pas été modifiée.
           content:
             application/json:
               examples:
@@ -93,9 +93,67 @@ paths:
                   summary: 'La catégorie n’a pas été modifiée'
                   value:
                     message: 'Internal server error: Category not updated'
+
+  /categories/all:
+    get:
+      summary: Récupérer toutes les catégories
+      description: Retourne la liste complète des catégories disponibles.
+      tags:
+        - Categories
+      responses:
+        '200':
+          description: Liste des catégories récupérée avec succès.
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: 'Légumes'
+                - id: 2
+                  name: 'Fruits'
+        '500':
+          description: Erreur interne du serveur.
+          content:
+            application/json:
+              example:
+                message: 'Erreur interne du serveur lors de la récupération des catégories.'
+
+  /categories/{id}:
+    get:
+      summary: Récupérer une catégorie par ID
+      description: Retourne les informations d'une catégorie spécifique en utilisant son ID.
+      tags:
+        - Categories
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: L'ID de la catégorie à récupérer.
+      responses:
+        '200':
+          description: Catégorie récupérée avec succès.
+          content:
+            application/json:
+              example:
+                id: 1
+                name: 'Légumes'
+        '404':
+          description: Catégorie non trouvée.
+          content:
+            application/json:
+              example:
+                message: 'La catégorie avec cet ID n’a pas été trouvée.'
+        '500':
+          description: Erreur interne du serveur.
+          content:
+            application/json:
+              example:
+                message: 'Erreur interne du serveur lors de la récupération de la catégorie.'
+
     delete:
       summary: Supprimer une catégorie par ID
-      description: Supprime une catégorie spécifique en utilisant son ID. Nécessite les rôles Admin.
+      description: Supprime une catégorie spécifique en utilisant son ID. Nécessite le rôle Admin.
       tags:
         - Categories
       security:
@@ -132,58 +190,3 @@ paths:
             application/json:
               example:
                 message: 'Forbidden'
-  /categories/all:
-    get:
-      summary: Récupérer toutes les catégories
-      description: Retourne la liste complète des catégories disponibles.
-      tags:
-        - Categories
-      responses:
-        '200':
-          description: Liste des catégories récupérée avec succès.
-          content:
-            application/json:
-              example:
-                - id: 1
-                  name: 'Légumes'
-                - id: 2
-                  name: 'Fruits'
-        '500':
-          description: Erreur interne du serveur.
-          content:
-            application/json:
-              example:
-                message: 'Erreur interne du serveur lors de la récupération des catégories.'
-  /categories/{id}:
-    get:
-      summary: Récupérer une catégorie par ID
-      description: Retourne les informations d'une catégorie spécifique en utilisant son ID.
-      tags:
-        - Categories
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: L'ID de la catégorie à récupérer.
-      responses:
-        '200':
-          description: Catégorie récupérée avec succès.
-          content:
-            application/json:
-              example:
-                id: 1
-                name: 'Légumes'
-        '404':
-          description: Catégorie non trouvée.
-          content:
-            application/json:
-              example:
-                message: 'La catégorie avec cet ID n’a pas été trouvée.'
-        '500':
-          description: Erreur interne du serveur.
-          content:
-            application/json:
-              example:
-                message: 'Erreur interne du serveur lors de la récupération de la catégorie.'

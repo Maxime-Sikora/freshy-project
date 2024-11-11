@@ -48,7 +48,7 @@ components:
             email:
               type: string
               format: email
-              example: 'producer@example.com'
+              example: 'producteur1@exemple.com'
             firstName:
               type: string
               example: 'Alice'
@@ -77,7 +77,7 @@ paths:
             examples:
               exampleCreateCompany:
                 value:
-                  company_name: 'Sample Company'
+                  company_name: 'Example Company'
                   street_company: '45 rue des Champs'
                   zip_code_company: 59500
                   city_company: 'DOUAI'
@@ -87,8 +87,14 @@ paths:
           description: Entreprise créée avec succès.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/CompanyEntity'
+              example:
+                id: 1
+                company_name: 'Example Company'
+                street_company: '10 rue des companies'
+                zip_code_company: '59000'
+                city_company: 'Lille'
+                userId: 2
+                phone_number_company: '0777552277'
         '401':
           description: L'utilisateur doit être un producteur authentifié.
           content:
@@ -126,8 +132,14 @@ paths:
           description: Informations de l'entreprise mises à jour avec succès.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/CompanyEntity'
+              example:
+                id: 1
+                company_name: 'Example Company'
+                street_company: '10 rue des companies'
+                zip_code_company: '59000'
+                city_company: 'Lille'
+                userId: 2
+                phone_number_company: '0777552277'
         '400':
           description: Mise à jour échouée.
           content:
@@ -162,10 +174,21 @@ paths:
           description: Liste des entreprises récupérée avec succès.
           content:
             application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CompanyEntity'
+              example:
+                - id: 1
+                  company_name: 'Example Company'
+                  street_company: '10 rue des companies'
+                  zip_code_company: '59000'
+                  city_company: 'Lille'
+                  userId: 2
+                  phone_number_company: '0777552277'
+                - id: 2
+                  company_name: 'Entreprise des Champs'
+                  street_company: '20 avenue des Vignes'
+                  zip_code_company: '75001'
+                  city_company: 'Paris'
+                  userId: 3
+                  phone_number_company: '0789456123'
         '500':
           description: Erreur interne du serveur.
           content:
@@ -190,8 +213,14 @@ paths:
           description: Entreprise récupérée avec succès.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/CompanyEntity'
+              example:
+                id: 1
+                company_name: 'Example Company'
+                street_company: '10 rue des companies'
+                zip_code_company: '59000'
+                city_company: 'Lille'
+                userId: 2
+                phone_number_company: '0777552277'
         '404':
           description: L'entreprise n'existe pas.
           content:

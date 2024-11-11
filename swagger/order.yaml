@@ -104,8 +104,30 @@ paths:
           description: Commande créée avec succès.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/OrderEntity'
+              example:
+                id: 1
+                total_price: 45.00
+                user:
+                  id: 1
+                  email: 'user@example.com'
+                  firstName: 'Alice'
+                  lastName: 'Smith'
+                  role: 'customer'
+                orderOnProduct:
+                  - id: 1
+                    product:
+                      id: 1
+                      productName: 'Tomato'
+                      price: 2.99
+                    quantity: 2
+                    total_line_product: 5.98
+                  - id: 2
+                    product:
+                      id: 2
+                      productName: 'Lettuce'
+                      price: 3.50
+                    quantity: 5
+                    total_line_product: 17.50
         '401':
           description: L'utilisateur doit être authentifié pour créer une commande.
           content:

@@ -6,11 +6,11 @@ components:
         email:
           type: string
           format: email
-          example: 'user@example.com'
+          example: 'consommateur1@exemple.com'
         password:
           type: string
           format: password
-          example: 'SecurePass123'
+          example: 'hashed_password'
         firstName:
           type: string
           example: 'John'
@@ -48,7 +48,7 @@ components:
           example: 1
         email:
           type: string
-          example: 'user@example.com'
+          example: 'consommateur1@exemple.com'
         firstName:
           type: string
           example: 'John'
@@ -57,7 +57,7 @@ components:
           example: 'Doe'
         role:
           type: string
-          example: 'producer'
+          example: 'customer'
 
 paths:
   /user:
@@ -76,24 +76,24 @@ paths:
               exampleCustomer:
                 summary: "Exemple d'un utilisateur de type Customer"
                 value:
-                  email: 'customer@example.com'
-                  password: 'SecurePass123'
+                  email: 'consommateur1@exemple.com'
+                  password: 'hashed_password'
                   firstName: 'Alice'
                   lastName: 'Smith'
                   role: 'customer'
               exampleProducer:
                 summary: "Exemple d'un utilisateur de type Producer"
                 value:
-                  email: 'producer@example.com'
-                  password: 'SecurePass123'
+                  email: 'producteur1@exemple.com'
+                  password: 'hashed_password'
                   firstName: 'Bob'
                   lastName: 'Jones'
                   role: 'producer'
               exampleAdmin:
                 summary: "Exemple d'un utilisateur de type Admin"
                 value:
-                  email: 'admin@example.com'
-                  password: 'SecurePass123'
+                  email: 'admin@exemple.com'
+                  password: 'hashed_password'
                   firstName: 'Charlie'
                   lastName: 'Brown'
                   role: 'admin'
@@ -102,8 +102,12 @@ paths:
           description: Utilisateur créé avec succès
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/UserEntity'
+              example:
+                id: 1
+                email: 'newuser@exemple.com'
+                firstName: 'Nouveau'
+                lastName: 'Utilisateur'
+                role: 'customer'
         '400':
           description: Erreur de validation ou de création
           content:
@@ -161,8 +165,12 @@ paths:
           description: Utilisateur modifié avec succès
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/UserEntity'
+              example:
+                id: 1
+                email: 'newuser@exemple.com'
+                firstName: 'Modifié'
+                lastName: 'Utilisateur'
+                role: 'customer'
         '400':
           description: Erreur lors de la modification
           content:

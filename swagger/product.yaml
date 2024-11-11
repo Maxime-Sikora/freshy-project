@@ -92,8 +92,21 @@ paths:
           description: Produit créé avec succès.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ProductEntity'
+              example:
+                id: 1
+                productName: 'Tomato'
+                description: 'Fresh and organic tomatoes'
+                price: 2.99
+                status: 'active'
+                category:
+                  id: 1
+                  name: 'Vegetables'
+                user:
+                  id: 1
+                  email: 'producer@example.com'
+                  firstName: 'Alice'
+                  lastName: 'Smith'
+                  role: 'producer'
         '401':
           description: L'utilisateur doit être authentifié et avoir le rôle `Producer`.
           content:
@@ -118,10 +131,35 @@ paths:
           description: Liste des produits récupérée avec succès.
           content:
             application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductEntity'
+              example:
+                - id: 1
+                  productName: 'Tomato'
+                  description: 'Fresh and organic tomatoes'
+                  price: 2.99
+                  status: 'active'
+                  category:
+                    id: 1
+                    name: 'Vegetables'
+                  user:
+                    id: 1
+                    email: 'producer@example.com'
+                    firstName: 'Alice'
+                    lastName: 'Smith'
+                    role: 'producer'
+                - id: 2
+                  productName: 'Apple'
+                  description: 'Crisp and juicy apples'
+                  price: 1.99
+                  status: 'active'
+                  category:
+                    id: 2
+                    name: 'Fruits'
+                  user:
+                    id: 2
+                    email: 'producer2@example.com'
+                    firstName: 'John'
+                    lastName: 'Doe'
+                    role: 'producer'
         '500':
           description: Erreur interne du serveur.
           content:
@@ -147,8 +185,21 @@ paths:
           description: Produit récupéré avec succès.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ProductEntity'
+              example:
+                id: 1
+                productName: 'Tomato'
+                description: 'Fresh and organic tomatoes'
+                price: 2.99
+                status: 'active'
+                category:
+                  id: 1
+                  name: 'Vegetables'
+                user:
+                  id: 1
+                  email: 'producer@example.com'
+                  firstName: 'Alice'
+                  lastName: 'Smith'
+                  role: 'producer'
         '404':
           description: Le produit n'existe pas.
           content:
@@ -187,8 +238,21 @@ paths:
           description: Produit mis à jour avec succès.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ProductEntity'
+              example:
+                id: 1
+                productName: 'Tomato'
+                description: 'Fresh and organic tomatoes'
+                price: 2.99
+                status: 'active'
+                category:
+                  id: 1
+                  name: 'Vegetables'
+                user:
+                  id: 1
+                  email: 'producer@example.com'
+                  firstName: 'Alice'
+                  lastName: 'Smith'
+                  role: 'producer'
         '401':
           description: L'utilisateur doit être authentifié.
           content:

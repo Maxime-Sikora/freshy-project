@@ -10,7 +10,7 @@ components:
         password:
           type: string
           format: password
-          example: 'hashed_password'
+          example: 'Monpassword'
         firstName:
           type: string
           example: 'John'
@@ -77,7 +77,7 @@ paths:
                 summary: "Exemple d'un utilisateur de type Customer"
                 value:
                   email: 'consommateur1@exemple.com'
-                  password: 'hashed_password'
+                  password: 'Monpassword'
                   firstName: 'Alice'
                   lastName: 'Smith'
                   role: 'customer'
@@ -85,7 +85,7 @@ paths:
                 summary: "Exemple d'un utilisateur de type Producer"
                 value:
                   email: 'producteur1@exemple.com'
-                  password: 'hashed_password'
+                  password: 'Monpassword'
                   firstName: 'Bob'
                   lastName: 'Jones'
                   role: 'producer'
@@ -93,7 +93,7 @@ paths:
                 summary: "Exemple d'un utilisateur de type Admin"
                 value:
                   email: 'admin@exemple.com'
-                  password: 'hashed_password'
+                  password: 'Monpassword'
                   firstName: 'Charlie'
                   lastName: 'Brown'
                   role: 'admin'

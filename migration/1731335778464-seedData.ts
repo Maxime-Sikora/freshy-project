@@ -6,17 +6,17 @@ export class SeedDatabase1731061500000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       INSERT INTO user_entity (id, email, password, \`firstName\`, \`lastName\`, role) VALUES
-      (1, 'admin@exemple.com', 'hashed_password', 'Admin', 'Utilisateur', 'admin'),
-      (2, 'producteur1@exemple.com', 'hashed_password', 'Jean', 'Dupont', 'producer'),
-      (3, 'producteur2@exemple.com', 'hashed_password', 'Marie', 'Martin', 'producer'),
-      (4, 'producteur3@exemple.com', 'hashed_password', 'Paul', 'Durand', 'producer'),
-      (5, 'producteur4@exemple.com', 'hashed_password', 'Sophie', 'Dubois', 'producer'),
-      (6, 'producteur5@exemple.com', 'hashed_password', 'Pierre', 'Moreau', 'producer'),
-      (7, 'consommateur1@exemple.com', 'hashed_password', 'Alice', 'Petit', 'customer'),
-      (8, 'consommateur2@exemple.com', 'hashed_password', 'Luc', 'Rousseau', 'customer'),
-      (9, 'consommateur3@exemple.com', 'hashed_password', 'Emma', 'Blanc', 'customer'),
-      (10, 'consommateur4@exemple.com', 'hashed_password', 'Hugo', 'Garcia', 'customer'),
-      (11, 'consommateur5@exemple.com', 'hashed_password', 'Chloé', 'Fernandez', 'customer');
+      (1, 'admin@exemple.com', '$2b$10$wWKL8/cavKnoEaAkTCiQ2.LfrMfS/UGLe150YBaai.NSoBpO.EHJe', 'Admin', 'Utilisateur', 'admin'),
+      (2, 'producteur1@exemple.com', '$2b$10$wWKL8/cavKnoEaAkTCiQ2.LfrMfS/UGLe150YBaai.NSoBpO.EHJe', 'Jean', 'Dupont', 'producer'),
+      (3, 'producteur2@exemple.com', '$2b$10$wWKL8/cavKnoEaAkTCiQ2.LfrMfS/UGLe150YBaai.NSoBpO.EHJe', 'Marie', 'Martin', 'producer'),
+      (4, 'producteur3@exemple.com', '$2b$10$wWKL8/cavKnoEaAkTCiQ2.LfrMfS/UGLe150YBaai.NSoBpO.EHJe', 'Paul', 'Durand', 'producer'),
+      (5, 'producteur4@exemple.com', '$2b$10$wWKL8/cavKnoEaAkTCiQ2.LfrMfS/UGLe150YBaai.NSoBpO.EHJe', 'Sophie', 'Dubois', 'producer'),
+      (6, 'producteur5@exemple.com', '$2b$10$wWKL8/cavKnoEaAkTCiQ2.LfrMfS/UGLe150YBaai.NSoBpO.EHJe', 'Pierre', 'Moreau', 'producer'),
+      (7, 'consommateur1@exemple.com', '$2b$10$wWKL8/cavKnoEaAkTCiQ2.LfrMfS/UGLe150YBaai.NSoBpO.EHJe', 'Alice', 'Petit', 'customer'),
+      (8, 'consommateur2@exemple.com', '$2b$10$wWKL8/cavKnoEaAkTCiQ2.LfrMfS/UGLe150YBaai.NSoBpO.EHJe', 'Luc', 'Rousseau', 'customer'),
+      (9, 'consommateur3@exemple.com', '$2b$10$wWKL8/cavKnoEaAkTCiQ2.LfrMfS/UGLe150YBaai.NSoBpO.EHJe', 'Emma', 'Blanc', 'customer'),
+      (10, 'consommateur4@exemple.com', '$2b$10$wWKL8/cavKnoEaAkTCiQ2.LfrMfS/UGLe150YBaai.NSoBpO.EHJe', 'Hugo', 'Garcia', 'customer'),
+      (11, 'consommateur5@exemple.com', '$2b$10$wWKL8/cavKnoEaAkTCiQ2.LfrMfS/UGLe150YBaai.NSoBpO.EHJe', 'Chloé', 'Fernandez', 'customer');
     `);
 
     await queryRunner.query(`

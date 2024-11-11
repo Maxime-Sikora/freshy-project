@@ -15,7 +15,7 @@ components:
         password:
           type: string
           format: password
-          example: 'SecurePass123'
+          example: 'Monpassword'
 
 paths:
   /auth:
@@ -34,18 +34,18 @@ paths:
               exampleConnectionCustomer:
                 summary: se connecter en tant que consommateur
                 value:
-                  email: 'customer@example.com'
-                  password: 'SecurePass123'
+                  email: 'consommateur1@exemple.com'
+                  password: 'Monpassword'
               exampleConnectionProducer:
                 summary: se connecter en tant que producteur
                 value:
-                  email: 'producer@example.com'
-                  password: 'SecurePass123'
+                  email: 'producteur1@exemple.com'
+                  password: 'Monpassword'
               exampleConnectionAdmin:
                 summary: se connecter en tant qu'Admin
                 value:
-                  email: 'admin@example.com'
-                  password: 'SecurePass123'
+                  email: 'admin@exemple.com'
+                  password: 'Monpassword'
       responses:
         '200':
           description: Utilisateur connecté avec succés

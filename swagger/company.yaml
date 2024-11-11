@@ -91,10 +91,15 @@ paths:
                 id: 1
                 company_name: 'Example Company'
                 street_company: '10 rue des companies'
-                zip_code_company: '59000'
+                zip_code_company: 59000
                 city_company: 'Lille'
-                userId: 2
                 phone_number_company: '0777552277'
+                user:
+                  id: 2
+                  email: 'producer@example.com'
+                  firstName: 'Alice'
+                  lastName: 'Smith'
+                  role: 'producer'
         '401':
           description: L'utilisateur doit être un producteur authentifié.
           content:
@@ -116,7 +121,7 @@ paths:
 
     put:
       summary: Mettre à jour les informations de l'entreprise
-      description: Met à jour les informations de l'entreprise pour un producteur.
+      description: Met à jour les informations de l'entreprise pour un `Producteur`.
       tags:
         - Company
       security:
@@ -136,10 +141,15 @@ paths:
                 id: 1
                 company_name: 'Example Company'
                 street_company: '10 rue des companies'
-                zip_code_company: '59000'
+                zip_code_company: 59000
                 city_company: 'Lille'
-                userId: 2
                 phone_number_company: '0777552277'
+                user:
+                  id: 2
+                  email: 'producer@example.com'
+                  firstName: 'Alice'
+                  lastName: 'Smith'
+                  role: 'producer'
         '400':
           description: Mise à jour échouée.
           content:
@@ -178,17 +188,27 @@ paths:
                 - id: 1
                   company_name: 'Example Company'
                   street_company: '10 rue des companies'
-                  zip_code_company: '59000'
+                  zip_code_company: 59000
                   city_company: 'Lille'
-                  userId: 2
                   phone_number_company: '0777552277'
+                  user:
+                    id: 2
+                    email: 'producer@example.com'
+                    firstName: 'Alice'
+                    lastName: 'Smith'
+                    role: 'producer'
                 - id: 2
                   company_name: 'Entreprise des Champs'
                   street_company: '20 avenue des Vignes'
-                  zip_code_company: '75001'
+                  zip_code_company: 75001
                   city_company: 'Paris'
-                  userId: 3
                   phone_number_company: '0789456123'
+                  user:
+                    id: 3
+                    email: 'producer2@example.com'
+                    firstName: 'Bob'
+                    lastName: 'Jones'
+                    role: 'producer'
         '500':
           description: Erreur interne du serveur.
           content:
@@ -217,10 +237,15 @@ paths:
                 id: 1
                 company_name: 'Example Company'
                 street_company: '10 rue des companies'
-                zip_code_company: '59000'
+                zip_code_company: 59000
                 city_company: 'Lille'
-                userId: 2
                 phone_number_company: '0777552277'
+                user:
+                  id: 2
+                  email: 'producer@example.com'
+                  firstName: 'Alice'
+                  lastName: 'Smith'
+                  role: 'producer'
         '404':
           description: L'entreprise n'existe pas.
           content:

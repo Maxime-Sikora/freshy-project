@@ -22,7 +22,7 @@ export class ProductEntity {
   @Column()
   description: string;
 
-  @Column()
+  @Column('decimal', { precision: 3, scale: 2 })
   price: number;
 
   @Column({
@@ -32,7 +32,10 @@ export class ProductEntity {
   })
   status: string;
 
-  @ManyToOne(() => CategoryEntity, (category) => category.product)
+  @ManyToOne(() => CategoryEntity, (category) => category.product, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
   @JoinColumn()
   category: CategoryEntity;
 

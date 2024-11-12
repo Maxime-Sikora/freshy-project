@@ -1,6 +1,8 @@
 import {
+  forwardRef,
   HttpException,
   HttpStatus,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -9,6 +11,7 @@ import { ProductEntity } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { CategoriesService } from 'src/categories/categories.service';
 import { UserService } from 'src/user/user.service';
+import { OrderService } from 'src/order/order.service';
 
 @Injectable()
 export class ProductService {
@@ -17,6 +20,8 @@ export class ProductService {
     private productRepository: Repository<ProductEntity>,
     private categoriesService: CategoriesService,
     private userService: UserService,
+    @Inject(forwardRef(() => OrderService))
+    private orderService: OrderService,
   ) {}
   async createNewProduct({
     productName,
@@ -95,12 +100,18 @@ export class ProductService {
     return updatedProduct;
   }
 
-  async deleteProduct(id: number, { userId }) {
+  async deleteProduct(id: number, { userId }): Promise<string> {
     const product = await this.findOneProduct(id);
     if (product.user.id !== userId) {
       throw new UnauthorizedException(
         `You are not authorized to delete this product`,
       );
+    }
+    const idProductInOrder = await this.orderService.productIsInOrder(id);
+    if (idProductInOrder) {
+      product.status = 'inactive';
+      await this.productRepository.save(product);
+      return `The product has been archived because it's use in order`;
     }
     const result = await this.productRepository.delete(id);
     if (result.affected === 0) {
@@ -109,6 +120,6 @@ export class ProductService {
         HttpStatus.NOT_FOUND,
       );
     }
-    return { message: `The product has been deleted successfully` };
+    return `The product has been deleted successfully`;
   }
 }

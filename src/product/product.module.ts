@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ProductController } from './product.controller';
 import { ProductService } from './product.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,6 +7,7 @@ import { CategoriesModule } from 'src/categories/categories.module';
 import { UserModule } from 'src/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { OrderModule } from 'src/order/order.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
     CategoriesModule,
     UserModule,
+    forwardRef(() => OrderModule),
   ],
   controllers: [ProductController],
   providers: [ProductService],

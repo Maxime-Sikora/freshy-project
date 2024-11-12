@@ -8,7 +8,7 @@ import { loadSwaggerDocument } from 'swagger/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector))); //Permet d'appliquer @Exclude() globalement sans avoir a utilise planToInstance()
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   const swaggerDocument = loadSwaggerDocument();
   SwaggerModule.setup('api', app, swaggerDocument);
   const configService = app.get(ConfigService);

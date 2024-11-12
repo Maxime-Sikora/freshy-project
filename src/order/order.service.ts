@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderEntity } from './entities/order.entity';
 import { Repository } from 'typeorm';
@@ -15,6 +15,7 @@ export class OrderService {
     @InjectRepository(OrderOnProductEntity)
     private orderOnProductRepository: Repository<OrderOnProductEntity>,
     private userService: UserService,
+    @Inject(forwardRef(() => ProductService))
     private productService: ProductService,
   ) {}
   async createOrder(
@@ -51,5 +52,12 @@ export class OrderService {
       relations: ['orderOnProduct', 'orderOnProduct.product'],
     });
     return completeOrder;
+  }
+
+  async productIsInOrder(productId: number): Promise<boolean> {
+    const orderLine = await this.orderOnProductRepository.findOne({
+      where: { product: { id: productId } },
+    });
+    return !!orderLine;
   }
 }

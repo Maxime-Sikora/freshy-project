@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -21,9 +21,10 @@ import { ProductModule } from 'src/product/product.module';
       inject: [ConfigService],
     }),
     UserModule,
-    ProductModule,
+    forwardRef(() => ProductModule),
   ],
   controllers: [OrderController],
   providers: [OrderService],
+  exports: [OrderService],
 })
 export class OrderModule {}

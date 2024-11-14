@@ -44,6 +44,18 @@ export class ProductService {
         HttpStatus.NOT_FOUND,
       );
     }
+
+    /**
+     * TODO : comprimer le code :
+     * return  this.productRepository.save({
+     *       productName,
+     *       description,
+     *       price,
+     *       category,
+     *       user,
+     *     })
+     **/
+
     const newProduct = await this.productRepository.save({
       productName,
       description,

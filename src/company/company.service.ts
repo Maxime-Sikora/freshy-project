@@ -16,6 +16,7 @@ export class CompanyService {
     private companyRepository: Repository<CompanyEntity>,
     private userService: UserService,
   ) {}
+  // TODO: pourquoi ici tu passes en snack-case ?
   async createCompany({
     company_name,
     street_company,

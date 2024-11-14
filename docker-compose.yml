@@ -5,11 +5,11 @@ services:
     image: mariadb:latest
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: 'rootpassword'    # mot de passe root
-      MARIADB_DATABASE: 'mydb'                 # nom de la base de données
-      MARIADB_USER: 'myuser'                   # nom de l'utilisateur
-      MARIADB_PASSWORD: 'mypassword'           # mot de passe utilisateur
-      MARIADB_ROOT_HOST: '%'                   # permet l'accès externe
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_ROOT_HOST: '%'
     ports:
       - 3306:3306
     volumes:

@@ -5,9 +5,18 @@ services:
     image: mariadb:latest
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 'freshypass'
-      MYSQL_DATABASE: freshy
-    volumes:
-      - ../data:/var/lib/mysql
+      MARIADB_ROOT_PASSWORD: 'rootpassword'    # mot de passe root
+      MARIADB_DATABASE: 'mydb'                 # nom de la base de données
+      MARIADB_USER: 'myuser'                   # nom de l'utilisateur
+      MARIADB_PASSWORD: 'mypassword'           # mot de passe utilisateur
+      MARIADB_ROOT_HOST: '%'                   # permet l'accès externe
     ports:
       - 3306:3306
+    volumes:
+      - mariadb_data:/var/lib/mysql            # volume persistant nommé
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+volumes:
+  mariadb_data:

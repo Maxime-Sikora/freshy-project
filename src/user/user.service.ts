@@ -35,6 +35,11 @@ export class UserService {
     role,
     userId,
   }): Promise<UserEntity> {
+    /** TODO: ici je proposerais de faire l'inverse
+     * 1. On récupère l'utilisateur et on vérifie si quelques choses a changé
+     * 2. On met a jour le cas échéant
+     * 3. La question se pose veut-on vraiment renvoyer une erreur si rien n'a changé ?
+     */
     const updatedUser = await this.userRepository.update(userId, {
       firstName,
       lastName,
@@ -51,6 +56,7 @@ export class UserService {
     return this.userRepository.findOneBy({ id });
   }
 
+  // TODO: peut être préciser un findOneByEmail ?
   async findOne(email: string): Promise<UserEntity> {
     return this.userRepository.findOneBy({
       email,

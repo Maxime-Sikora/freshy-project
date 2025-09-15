@@ -17,6 +17,8 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { Roles } from 'src/guards/role.decorateur';
 import { UserRoles } from 'src/user/interface/userRoles';
 import { RolesGuard } from 'src/guards/roles.guard';
+import { Request } from 'express';
+import { JwtPayload } from 'src/auth/interface/jwtPayload.interface';
 
 @Controller('product')
 export class ProductController {
@@ -34,6 +36,12 @@ export class ProductController {
   @Get('all')
   findAllProducts() {
     return this.productService.findAllProducts();
+  }
+
+  @Get('myProducts')
+  @UseGuards(AuthGuard)
+  findAllProductByProducer(@Req() req: Request & { user: JwtPayload }) {
+    return this.productService.findAllProductsByProducer(req.user.sub);
   }
 
   @Get(':id')

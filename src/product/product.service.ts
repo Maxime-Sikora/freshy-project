@@ -61,6 +61,15 @@ export class ProductService {
     return products;
   }
 
+  async findAllProductsByProducer(
+    producerId: number,
+  ): Promise<ProductEntity[]> {
+    const products = await this.productRepository.find({
+      where: { user: { id: producerId } },
+    });
+    return products;
+  }
+
   async findOneProduct(id: number): Promise<ProductEntity> {
     const product = await this.productRepository.findOne({
       where: { id },

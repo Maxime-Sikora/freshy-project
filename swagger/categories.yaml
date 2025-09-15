@@ -21,7 +21,7 @@ paths:
       tags:
         - Categories
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -118,7 +118,7 @@ paths:
       tags:
         - Categories
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       parameters:
         - in: path
           name: id
@@ -183,7 +183,7 @@ paths:
       tags:
         - Categories
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       parameters:
         - in: path
           name: id

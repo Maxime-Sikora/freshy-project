@@ -67,7 +67,7 @@ paths:
       tags:
         - Company
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -125,7 +125,7 @@ paths:
       tags:
         - Company
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       requestBody:
         required: true
         content:

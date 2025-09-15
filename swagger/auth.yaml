@@ -1,29 +1,30 @@
 components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: access_token
+
   schemas:
-    AuthResponse:
-      type: object
-      properties:
-        access_token:
-          type: string
     SignInDto:
       type: object
+      required: [email, password]
       properties:
         email:
           type: string
           format: email
-          example: 'user@example.com'
+          example: user@example.com
         password:
           type: string
           format: password
-          example: 'Monpassword'
+          example: Monpassword
 
 paths:
-  /auth:
+  /auth/signin:
     post:
-      summary: Se connecter pour récupérer un token
-      description: Se connecter avec ses identifiants pour récupérer son token
-      tags:
-        - Auth
+      summary: Se connecter
+      description: Authentifie l'utilisateur et pose un cookie HttpOnly `access_token`.
+      tags: [Auth]
       requestBody:
         required: true
         content:
@@ -31,27 +32,37 @@ paths:
             schema:
               $ref: '#/components/schemas/SignInDto'
             examples:
-              exampleConnectionCustomer:
-                summary: se connecter en tant que consommateur
+              customer:
                 value:
-                  email: 'consommateur1@exemple.com'
-                  password: 'Monpassword'
-              exampleConnectionProducer:
-                summary: se connecter en tant que producteur
+                  {
+                    email: 'consommateur1@exemple.com',
+                    password: 'Monpassword',
+                  }
+              producer:
                 value:
-                  email: 'producteur1@exemple.com'
-                  password: 'Monpassword'
-              exampleConnectionAdmin:
-                summary: se connecter en tant qu'Admin
-                value:
-                  email: 'admin@exemple.com'
-                  password: 'Monpassword'
+                  { email: 'producteur1@exemple.com', password: 'Monpassword' }
+              admin:
+                value: { email: 'admin@exemple.com', password: 'Monpassword' }
       responses:
-        '200':
-          description: Utilisateur connecté avec succés
-          content:
-            application/json:
+        '204':
+          description: Connexion réussie — cookie `access_token` posé.
+          headers:
+            Set-Cookie:
+              description: >
+                Cookie d'authentification HttpOnly.
+                Exemple: `access_token=eyJ...; Path=/; HttpOnly; SameSite=Lax`
               schema:
-                $ref: '#/components/schemas/AuthResponse'
-        '404':
-          description: L'utilisateur ou le mot de passe est incorrect
+                type: string
+        '401':
+          description: Identifiants invalides
+
+  /auth/logout:
+    post:
+      summary: Se déconnecter
+      description: Supprime le cookie `access_token`.
+      tags: [Auth]
+      security:
+        - cookieAuth: []
+      responses:
+        '204':
+          description: Déconnexion réussie — cookie supprimé.

@@ -134,7 +134,7 @@ paths:
       tags:
         - User
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -185,3 +185,37 @@ paths:
                 invalidRole:
                   summary: 'Rôle invalide'
                   value: { message: 'Role must be one of the valid roles' }
+    get:
+      summary: Récupérer le profil de l'utilisateur connecté
+      description: Retourne les informations de l'utilisateur courant (sans mot de passe).
+      tags:
+        - User
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Informations de l'utilisateur connecté
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserEntity'
+              example:
+                id: 1
+                email: 'consommateur1@exemple.com'
+                firstName: 'Alice'
+                lastName: 'Smith'
+                role: 'customer'
+        '401':
+          description: Token manquant ou invalide
+          content:
+            application/json:
+              examples:
+                missingToken:
+                  summary: 'Token manquant'
+                  value:
+                    {
+                      message: 'Token missing: you must be logged in to access the resource',
+                    }
+                invalidToken:
+                  summary: 'Token invalide'
+                  value: { message: 'Invalid token: authentication failed' }

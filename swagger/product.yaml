@@ -73,7 +73,7 @@ paths:
       tags:
         - Product
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -167,6 +167,56 @@ paths:
               example:
                 message: 'Erreur interne du serveur'
 
+  /product/myProducts:
+    get:
+      summary: Produits du producteur connecté
+      description: |
+        Retourne tous les produits appartenant au producteur actuellement authentifié (ID lu depuis le JWT).
+        Nécessite une authentification (cookie `access_token`).
+      tags:
+        - Product
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Liste des produits du producteur courant.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductEntity'
+              examples:
+                sample:
+                  summary: Exemple de produits
+                  value:
+                    - id: 101
+                      name: 'Tomates anciennes'
+                      description: 'Tomates de variétés anciennes, cultivées en plein champ.'
+                      price: 3.5
+                      stock: 120
+                      imageUrl: 'https://exemple.com/img/tomates.jpg'
+                      # autres champs de ProductEntity si définis
+                    - id: 102
+                      name: 'Courgettes bio'
+                      description: 'Courgettes certifiées bio.'
+                      price: 2.2
+                      stock: 80
+                      imageUrl: 'https://exemple.com/img/courgettes.jpg'
+        '401':
+          description: Non authentifié (cookie manquant ou invalide).
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: 'Unauthorized'
+        '403':
+          description: Accès refusé (si vous vérifiez que l'utilisateur doit être 'producer').
+          content:
+            application/json:
+              example:
+                statusCode: 403
+
   /product/{id}:
     get:
       summary: Récupérer un produit par ID
@@ -219,7 +269,7 @@ paths:
       tags:
         - Product
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       parameters:
         - in: path
           name: id
@@ -278,7 +328,7 @@ paths:
       tags:
         - Product
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       parameters:
         - in: path
           name: id
